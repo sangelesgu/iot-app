@@ -1,5 +1,10 @@
 import React from 'react';
+import { Map } from '../../components/map/Map';
 
 export const Home = () => {
-  return <div>Home</div>;
+  return (
+    <div>
+      <Map />
+    </div>
+  );
 };
