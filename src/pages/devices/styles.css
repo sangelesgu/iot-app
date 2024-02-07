@@ -1,0 +1,11 @@
+.devices-main-container {
+    padding: 0px clamp(10px, 2.98vw, 43px);
+
+    & .main-title {
+        color: #19658a;
+        padding-top: 10px;
+        font-size: clamp(16px, 1.04vw, 1.04vw);
+        margin-bottom: 20px;
+    }
+
+}

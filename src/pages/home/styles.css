@@ -1,0 +1,8 @@
+.home-main {
+    padding: 0px clamp(10px, 2.98vw, 43px);
+
+    & .main-title {
+        display: flex;
+        justify-content: flex-start;
+    }
+}

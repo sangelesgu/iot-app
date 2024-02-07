@@ -1,44 +1,64 @@
 import React from 'react';
 
+import { Loader } from '../ui/Loader';
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
 
+import { Device } from '../../helpers/response.types';
+
 import marker from '../../img/marker.svg';
+
 const libraries = ['places'];
-export const Map = () => {
+
+interface MapProps {
+  devices: Device[];
+}
+
+export const Map: React.FC<MapProps> = ({ devices }) => {
   const apiKey = 'AIzaSyBdROc9bnZxmi4YtEneiCdk8ar51S-DMZk';
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: apiKey,
-    libraries,
+    libraries: libraries as any,
   });
-  const centers = [];
-  const ubication = null;
-  const mapCenter = { lat: 19.4326, lng: -99.1332 };
+
+  const mapCenter = {
+    lat: 41.385063,
+    lng: 2.173404,
+  };
   const options = {
     disableDefaultUI: true,
   };
-  const onMapLoad = (map) => {
+  const onMapLoad = (map: any) => {
     console.log('map', map);
   };
 
-  const handleClick = (center) => {
-    console.log(center);
+  const handleClick = (device: Device) => {
+    console.log(device);
   };
+
+  if (loadError) return <div>Error loading maps</div>;
+  if (!isLoaded)
+    return (
+      <div className="d-flex align-items-center justify-content-center pt-5">
+        <Loader />
+      </div>
+    );
+
   return (
     <div>
       <GoogleMap
         zoom={8}
-        center={ubication === null ? mapCenter : ubication}
+        center={mapCenter}
         options={options}
         onLoad={onMapLoad}
       >
-        {centers &&
-          centers?.map((center) => (
+        {devices &&
+          devices?.map((device) => (
             <Marker
-              onClick={() => handleClick(center)}
-              key={center.id}
+              onClick={() => handleClick(device)}
+              key={device.id}
               position={{
-                lat: +center.latitude?.replace(/,/g, '.'),
-                lng: +center.longitude?.replace(/,/g, '.'),
+                lat: +device.latitude,
+                lng: +device.longitude,
               }}
               icon={{
                 url: marker,
