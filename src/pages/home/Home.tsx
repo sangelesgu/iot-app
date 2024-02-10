@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Map } from '../../components/map/Map';
+import { Device } from '../../helpers/response.types';
 
 import './styles.css';
-import { Device } from '../../helpers/response.types';
 const url = process.env.REACT_APP_API_BASE_URL;
 console.log(url);
 export const Home = () => {
@@ -23,10 +23,10 @@ export const Home = () => {
   }, []);
   return (
     <div className="home-main">
-      <section className="main-title">
+      <section className="main-title pt-1">
         <span>Home</span>
       </section>
-      <section className="card">
+      <section className="cardBox">
         <Map devices={devices} />
       </section>
     </div>

@@ -1,8 +1,27 @@
 .home-main {
+    align-items: center;
+    display: grid;
     padding: 0px clamp(10px, 2.98vw, 43px);
 
     & .main-title {
         display: flex;
         justify-content: flex-start;
+    }
+
+    & .cardBox {
+        position: relative;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        border: 1px solid #aaa;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px 0px #aaa;
+        padding: 5px 7px;
+        width: 700px;
+
+        & .map-container {
+            width: 100%;
+            height: calc(100vh - 100px);
+        }
     }
 }

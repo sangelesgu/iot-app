@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import { Loader } from '../ui/Loader';
-import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
+import { Marker, useLoadScript } from '@react-google-maps/api';
+import GoogleMapReact from 'google-map-react';
 
 import { Device } from '../../helpers/response.types';
 
@@ -15,10 +16,18 @@ interface MapProps {
 
 export const Map: React.FC<MapProps> = ({ devices }) => {
   const apiKey = 'AIzaSyBdROc9bnZxmi4YtEneiCdk8ar51S-DMZk';
+  const mapRef = useRef(null);
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: apiKey,
     libraries: libraries as any,
   });
+
+  const Marker = ({ text }: { text: string; lat: number; lng: number }) => (
+    <>
+      <img src={marker} alt="marker" />
+      {text}
+    </>
+  );
 
   const mapCenter = {
     lat: 41.385063,
@@ -27,14 +36,11 @@ export const Map: React.FC<MapProps> = ({ devices }) => {
   const options = {
     disableDefaultUI: true,
   };
-  const onMapLoad = (map: any) => {
-    console.log('map', map);
-  };
 
-  const handleClick = (device: Device) => {
+  /*  const handleClick = (device: Device) => {
     console.log(device);
   };
-
+ */
   if (loadError) return <div>Error loading maps</div>;
   if (!isLoaded)
     return (
@@ -44,28 +50,20 @@ export const Map: React.FC<MapProps> = ({ devices }) => {
     );
 
   return (
-    <div>
-      <GoogleMap
-        zoom={8}
-        center={mapCenter}
-        options={options}
-        onLoad={onMapLoad}
-      >
+    <div className="d-flex justify-content-center map-container">
+      <GoogleMapReact defaultZoom={5} center={mapCenter} options={options}>
         {devices &&
+          devices.length > 0 &&
           devices?.map((device) => (
             <Marker
-              onClick={() => handleClick(device)}
+              // onClick={() => handleClick(device)}
               key={device.id}
-              position={{
-                lat: +device.latitude,
-                lng: +device.longitude,
-              }}
-              icon={{
-                url: marker,
-              }}
+              lat={device.latitude} // Fix: Change 'lat' to 'latitude'
+              lng={device.longitude} // Fix: Change 'lng' to 'longitude'
+              text={device.name}
             />
           ))}
-      </GoogleMap>
+      </GoogleMapReact>
     </div>
   );
 };
